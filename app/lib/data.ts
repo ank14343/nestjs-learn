@@ -67,8 +67,8 @@ export async function fetchCardData() {
   try {
     // noStore();
     console.log('Fetching card data...');
-    // let delay = 10;
-    // await new Promise((resolve) => setTimeout(resolve, delay * 1000));
+    let delay = 7;
+    await new Promise((resolve) => setTimeout(resolve, delay * 1000));
     // You can probably combine these into a single SQL query
     // However, we are intentionally splitting them to demonstrate
     // how to initialize multiple queries in parallel with JS.
