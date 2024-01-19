@@ -1,6 +1,6 @@
 import SideNav from '@/app/ui/dashboard/sidenav';
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic'; // If used along with "use client" then request will catch
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
