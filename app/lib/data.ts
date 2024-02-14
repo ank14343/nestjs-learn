@@ -9,7 +9,7 @@ import {
   Revenue,
 } from './definitions';
 import { formatCurrency } from './utils';
-// import { unstable_noStore as noStore } from 'next/cache';
+import { unstable_noStore as noStore } from 'next/cache';
 
 export async function fetchRevenue() {
   // Add noStore() here to prevent the response from being cached.
@@ -110,8 +110,8 @@ export async function fetchFilteredInvoices(
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
   try {
-    // noStore();
-    console.log('Fetching filetered invoiced data...');
+    noStore();
+    // console.log('Fetching filetered invoiced data...');
     const invoices = await sql<InvoicesTable>`
       SELECT
         invoices.id,
@@ -132,7 +132,7 @@ export async function fetchFilteredInvoices(
       ORDER BY invoices.date DESC
       LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
     `;
-    console.log('filetered invoiced Data fetch completed');
+    // console.log('filetered invoiced Data fetch completed');
     return invoices.rows;
   } catch (error) {
     console.error('Database Error:', error);
@@ -142,8 +142,8 @@ export async function fetchFilteredInvoices(
 
 export async function fetchInvoicesPages(query: string) {
   try {
-    // noStore();
-    console.log('Fetching invoices pages data...');
+    noStore();
+    // console.log('Fetching invoices pages data...');
     const count = await sql`SELECT COUNT(*)
     FROM invoices
     JOIN customers ON invoices.customer_id = customers.id
@@ -156,7 +156,7 @@ export async function fetchInvoicesPages(query: string) {
   `;
 
     const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
-    console.log('invoices pages Data fetch completed');
+    // console.log('invoices pages Data fetch completed');
     return totalPages;
   } catch (error) {
     console.error('Database Error:', error);
@@ -194,7 +194,7 @@ export async function fetchInvoiceById(id: string) {
 export async function fetchCustomers() {
   try {
     // noStore();
-    console.log('Fetching customers data...');
+    // console.log('Fetching customers data...');
     const data = await sql<CustomerField>`
       SELECT
         id,
@@ -204,7 +204,7 @@ export async function fetchCustomers() {
     `;
 
     const customers = data.rows;
-    console.log('customers Data fetch completed');
+    // console.log('customers Data fetch completed');
     return customers;
   } catch (err) {
     console.error('Database Error:', err);

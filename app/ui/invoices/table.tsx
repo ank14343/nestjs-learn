@@ -4,6 +4,10 @@ import InvoiceStatus from '@/app/ui/invoices/status';
 import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
 import { fetchFilteredInvoices } from '@/app/lib/data';
 
+/**
+ * RSC
+ * @returns 
+ */
 export default async function InvoicesTable({
   query,
   currentPage,
@@ -11,6 +15,7 @@ export default async function InvoicesTable({
   query: string;
   currentPage: number;
 }) {
+  // await new Promise(res => setTimeout(res, 5000));
   const invoices = await fetchFilteredInvoices(query, currentPage);
 
   return (
