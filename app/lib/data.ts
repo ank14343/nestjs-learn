@@ -141,6 +141,10 @@ export async function fetchFilteredInvoices(
 }
 
 export async function fetchInvoicesPages(query: string) {
+  // let rand = Math.ceil(Math.random() * 3);
+  // if (rand == 1) {
+  //   throw new Error('Expected error');
+  // }
   try {
     noStore();
     // console.log('Fetching invoices pages data...');
@@ -165,6 +169,7 @@ export async function fetchInvoicesPages(query: string) {
 }
 
 export async function fetchInvoiceById(id: string) {
+  let errMsg = '';
   try {
     // noStore();
     console.log('Fetching invoice by ID data...');
@@ -184,10 +189,18 @@ export async function fetchInvoiceById(id: string) {
       amount: invoice.amount / 100,
     }));
     console.log('invoice by ID Data fetch completed');
+    console.log(`invoice `, invoice);
+    // if (invoice.length == 0) {
+    //   errMsg = 'Invoice not found.';
+    //   throw new Error(errMsg);
+    // }
     return invoice[0];
   } catch (error) {
     console.error('Database Error:', error);
-    throw new Error('Failed to fetch invoice.');
+    if (!errMsg) {
+      errMsg = 'Failed to fetch invoice.';
+    }
+    throw new Error(errMsg);
   }
 }
 

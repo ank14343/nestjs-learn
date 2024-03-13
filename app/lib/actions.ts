@@ -24,20 +24,29 @@ export async function createInvoice(formData: FormData) {
     amount: formData.get('amount'),
     status: formData.get('status'),
   });
+
   //   Object.fromEntries(formData.entries());
   //   console.log(rawFormData);
   //   console.log(typeof rawFormData.amount);
   const amountInCents = amount * 100;
   const date = new Date().toISOString().split('T')[0];
 
-  let q = await sql`
-    INSERT INTO invoices (customer_id, amount, status, date)
-    VALUES (${customerId}, ${amountInCents}, ${status}, ${date})
-  `;
-  if (q.rowCount > 0) {
-    console.log(`invoice inserted successfully for user ${customerId}`);
-  } else {
-    console.error(`error while inserting invoice for user ${customerId}`);
+  try {
+    let q = await sql`
+      INSERT INTO invoices (customer_id, amount, status, date)
+      VALUES (${customerId}, ${amountInCents}, ${status}, ${date})
+    `;
+    if (q.rowCount > 0) {
+      console.log(`invoice inserted successfully for user ${customerId}`);
+    } else {
+      console.error(`error while inserting invoice for user ${customerId}`);
+    }
+  } catch (error: any) {
+    console.log(error.message);
+    throw new Error(`Database Error: ${error.message}.`);
+    // return {
+    //   message: `Database Error: ${error.message}.`,
+    // };
   }
 
   revalidatePath(`/dashboard/invoices`);
